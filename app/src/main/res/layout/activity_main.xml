@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.AfKav.PopupOverlay" />
+            app:popupTheme="@style/Theme.AfKav.PopupOverlay"
+            app:title="@string/app_name"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,10 +38,20 @@
             app:layout_anchorGravity="end|center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            tools:ignore="ImageContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/state_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ready_to_transmit"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_anchor="@+id/constraints"
+        app:layout_anchorGravity="center" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

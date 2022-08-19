@@ -6,4 +6,5 @@ fun saveCard(cardData: String) {
 
 private fun loadCard(): String {
     // Toast.makeText(, "Loading...", Toast.LENGTH_SHORT).show()
+    return ""
 }

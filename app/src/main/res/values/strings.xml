@@ -8,5 +8,6 @@
     <string name="back">Back</string>
 
     <string name="ready_to_transmit">Ready to transmit</string>
+    <string name="scanning_for_card">Scanning for card</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

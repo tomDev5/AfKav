@@ -11,9 +11,12 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,9 +43,9 @@ class MainActivity : AppCompatActivity() {
 
         addCardButton.setOnClickListener {
             isScanning = !isScanning
-            val isEnabledStr = if (isScanning) "enabled" else "disabled"
-            val message = "Scanning now $isEnabledStr"
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            val stateTextView = findViewById<TextView>(R.id.state_text_view)
+            stateTextView.text =
+                if (isScanning) getString(R.string.scanning_for_card) else getString(R.string.ready_to_transmit)
         }
     }
 
@@ -59,9 +62,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent != null) {
-            Toast.makeText(this, intent.action.toString(), Toast.LENGTH_SHORT).show()
-        }
 
         setIntent(intent)
         if (intent != null) {
