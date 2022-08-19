@@ -1,8 +1,14 @@
 package com.randomhq.afkav
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.getIntent
+import android.nfc.NdefMessage
+import android.nfc.NfcAdapter
 import android.nfc.NfcManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +52,31 @@ class SetCardFragment : Fragment() {
         }
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
+        if (activity != null) {
+            readFromIntent(activity?.intent);
+        }
+
+//        var pendingIntent =
+//            PendingIntent.getActivity(context, 0, Intent (this, getClass()).addFlags(
+//                Intent.FLAG_ACTIVITY_SINGLE_TOP
+//            ), 0);
+//        val tagDetected: IntentFilter = IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+//        var writeTagFilters = IntentFilter[] { tagDetected };
+    }
+
+    private fun readFromIntent(intent: Intent) {
+        val action = intent.getAction();
+        if (NfcAdapter.ACTION_TAG_DISCOVERED == action ||
+            NfcAdapter.ACTION_TECH_DISCOVERED == action ||
+            NfcAdapter.ACTION_NDEF_DISCOVERED == action
+        ) {
+            val parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            val messages: Array<NdefMessage>? = null
+            for (i in parcelables!!.indices) {
+                messages!![i] = parcelables[i] as NdefMessage
+                Log.d("parse", messages[i].toString());
+            }
+        }
     }
 
     override fun onDestroyView() {
