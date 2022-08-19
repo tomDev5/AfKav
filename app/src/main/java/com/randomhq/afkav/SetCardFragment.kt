@@ -37,12 +37,12 @@ class SetCardFragment : Fragment() {
         val adapter = manager.defaultAdapter
 
         val message = if (adapter == null) {
-            "Your device doesn't seem to support NFC";
+            "Your device doesn't seem to support NFC"
         } else if (!adapter.isEnabled) {
             // adapter exists and is enabled.
-            "NFC is off! WTF do you want me to do";
-        }else {
-            "NFC is working!";
+            "NFC is off! WTF do you want me to do"
+        } else {
+            "NFC is working!"
         }
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
