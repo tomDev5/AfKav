@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pendingIntent: PendingIntent  // Pending Intent to receive an NFC card.
 
     private var isScanning = false  // True = Scanning, False = Transmitting.
-
     private lateinit var addCardButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
-            Toast.makeText(this, intent.getAction().toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, intent.action.toString(), Toast.LENGTH_SHORT).show()
         }
 
         setIntent(intent)
@@ -80,15 +79,11 @@ class MainActivity : AppCompatActivity() {
             val payload: String = detectTagData(tag)
 
             // Save the NFC card to Shared Prefs
-            saveNFCCard(payload)
+            saveCard(payload)
         }
     }
 
-    private fun saveNFCCard(cardData: String) {
-        Toast.makeText(this, "Saving...", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun detectTagData(tag: Tag): String {
+    private fun detectTagData(tag: Tag): String {  // TODO: Move to other class
         val sb = StringBuilder()
         val id = tag.id
         sb.append("ID (hex): ").append(toHex(id)).append('\n')
