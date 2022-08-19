@@ -13,36 +13,20 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.randomhq.afkav.databinding.ActivityMainBinding
-import kotlin.experimental.and
 
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
-
-    private var isScanning = false  // True = Scanning, False = Transmitting.
-
     private lateinit var nfcAdapter: NfcAdapter  // The NFC Adapter the phone has.
     private lateinit var pendingIntent: PendingIntent  // Pending Intent to receive an NFC card.
+
+    private var isScanning = false  // True = Scanning, False = Transmitting.
 
     private lateinit var addCardButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Transmit Activity
         super.onCreate(savedInstanceState)
-
-        // binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
-
-        // setSupportActionBar(binding.toolbar)
-
-        // val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // appBarConfiguration = AppBarConfiguration(navController.graph)
-        // setupActionBarWithNavController(navController, appBarConfiguration)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
@@ -61,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             val message = "Scanning now $isEnabledStr"
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onResume() {
@@ -97,11 +80,11 @@ class MainActivity : AppCompatActivity() {
             val payload: String = detectTagData(tag)
 
             // Save the NFC card to Shared Prefs
-            saveNfcCard(payload)
+            saveNFCCard(payload)
         }
     }
 
-    private fun saveNfcCard(cardData: String) {
+    private fun saveNFCCard(cardData: String) {
         Toast.makeText(this, "Saving...", Toast.LENGTH_SHORT).show()
     }
 
@@ -159,54 +142,6 @@ class MainActivity : AppCompatActivity() {
         }
         Log.v("test", sb.toString())
         return sb.toString()
-    }
-
-    private fun toHex(bytes: ByteArray): String {
-        val sb = StringBuilder()
-        for (i in bytes.indices.reversed()) {
-            val b: Byte = bytes[i] and 0xff.toByte()
-            if (b < 0x10) sb.append('0')
-            sb.append(Integer.toHexString(b.toInt()))
-            if (i > 0) {
-                sb.append(" ")
-            }
-        }
-        return sb.toString()
-    }
-
-    private fun toReversedHex(bytes: ByteArray): String {
-        val sb = StringBuilder()
-        for (i in bytes.indices) {
-            if (i > 0) {
-                sb.append(" ")
-            }
-            val b: Byte = bytes[i] and 0xff.toByte()
-            if (b < 0x10) sb.append('0')
-            sb.append(Integer.toHexString(b.toInt()))
-        }
-        return sb.toString()
-    }
-
-    private fun toDec(bytes: ByteArray): Long {
-        var result: Long = 0
-        var factor: Long = 1
-        for (i in bytes.indices) {
-            val value: Byte = bytes[i] and 0xffL.toByte()
-            result += value * factor
-            factor *= 256L
-        }
-        return result
-    }
-
-    private fun toReversedDec(bytes: ByteArray): Long {
-        var result: Long = 0
-        var factor: Long = 1
-        for (i in bytes.indices.reversed()) {
-            val value: Byte = bytes[i] and 0xffL.toByte()
-            result += value * factor
-            factor *= 256L
-        }
-        return result
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
