@@ -28,7 +28,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/state_text_view"
+            android:id="@+id/tv_card_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_card_saved"
@@ -40,18 +40,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/transmit_button"
+            android:id="@+id/bt_transmit_button"
             android:layout_width="@dimen/main_button_width"
             android:layout_height="@dimen/main_button_height"
             android:text="@string/transmit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/state_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/tv_card_state"
             app:layout_constraintVertical_bias="0.19999999" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addCardButton"
+            android:id="@+id/bt_add_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -65,7 +65,7 @@
             tools:ignore="ImageContrastCheck" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/removeCardButton"
+            android:id="@+id/bt_remove_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -73,7 +73,7 @@
             android:clickable="true"
             android:contentDescription="@string/remove_card"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addCardButton"
+            app:layout_constraintEnd_toStartOf="@+id/bt_add_card"
             app:srcCompat="@drawable/ic_baseline_clear_24"
             tools:ignore="ImageContrastCheck" />
 

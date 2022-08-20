@@ -15,16 +15,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 
-
-
-
 class MainActivity : AppCompatActivity() {
     private var savedTag: Tag? = null
+
+    private lateinit var cardHandler: CardHandler
 
     private lateinit var nfcAdapter: NfcAdapter  // The NFC Adapter the phone has.
     private lateinit var pendingIntent: PendingIntent  // Pending Intent to receive an NFC card.
 
     private var isScanning = false  // True = Scanning, False = Transmitting.
+
     private lateinit var addCardButton: FloatingActionButton
     private lateinit var removeCardButton: FloatingActionButton
     private lateinit var transmitButton: Button
@@ -42,33 +42,35 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_MUTABLE
         )
 
-        addCardButton = findViewById(R.id.addCardButton)
 
+        addCardButton = findViewById(R.id.bt_add_card)
         addCardButton.setOnClickListener {
             isScanning = !isScanning
             updateStateTextView()
         }
 
-        removeCardButton = findViewById(R.id.removeCardButton)
+        // Create Card Handler
+        cardHandler = CardHandler(applicationContext)
 
+        removeCardButton = findViewById(R.id.bt_remove_card)
         removeCardButton.setOnClickListener {
             savedTag = null
-            removeCard(applicationContext)
+            cardHandler.removeCard()
             updateStateTextView()
         }
 
-        transmitButton = findViewById(R.id.transmit_button)
-
+        transmitButton = findViewById(R.id.bt_transmit_button)
         transmitButton.setOnClickListener {
-            Snackbar.make(findViewById(R.id.constraints), "Transmitting", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(findViewById(R.id.constraints), "Transmitting", Snackbar.LENGTH_SHORT)
+                .show()
         }
 
-        savedTag = loadCard(applicationContext)
+        savedTag = cardHandler.loadCard()
         updateStateTextView()
     }
 
     private fun updateStateTextView() {
-        val stateTextView = findViewById<TextView>(R.id.state_text_view)
+        val stateTextView = findViewById<TextView>(R.id.tv_card_state)
         stateTextView.text = if (isScanning) {
             getString(R.string.scanning_for_card)
         } else if (savedTag == null) {
@@ -109,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             val tag: Tag = (intent.getParcelableExtra<Parcelable>(NfcAdapter.EXTRA_TAG) as Tag?)!!
 
             // Save the NFC card to Shared Prefs
-            saveCard(applicationContext, tag)
+            cardHandler.saveCard(tag)
             isScanning = false
             savedTag = tag
             updateStateTextView()

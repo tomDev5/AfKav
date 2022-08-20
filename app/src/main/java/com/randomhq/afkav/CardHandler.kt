@@ -8,25 +8,28 @@ import com.google.gson.Gson
 private var TAG_ID_PREFERENCES_KEY: String = "TAG_ID"
 private val gson = Gson()
 
-fun saveCard(context: Context, tag: Tag) = context.getSharedPreferences(
-    context.packageName, Context.MODE_PRIVATE
-).edit().putString(TAG_ID_PREFERENCES_KEY, gson.toJson(tag)).apply()
+class CardHandler(private val context: Context) {
 
-fun loadCard(context: Context): Tag? {
-    val json: String? = context.getSharedPreferences(
+    fun saveCard(tag: Tag) = context.getSharedPreferences(
         context.packageName, Context.MODE_PRIVATE
-    ).getString(
-        TAG_ID_PREFERENCES_KEY,
-        ""
-    )
-    return gson.fromJson(json, Tag::class.java) ?: return null
+    ).edit().putString(TAG_ID_PREFERENCES_KEY, gson.toJson(tag)).apply()
+
+    fun loadCard(): Tag? {
+        val json: String? = context.getSharedPreferences(
+            context.packageName, Context.MODE_PRIVATE
+        ).getString(
+            TAG_ID_PREFERENCES_KEY,
+            ""
+        )
+        return gson.fromJson(json, Tag::class.java) ?: return null
+    }
+
+    fun removeCard() = context.getSharedPreferences(
+        context.packageName, Context.MODE_PRIVATE
+    ).edit().clear().apply()
 }
 
-fun removeCard(context: Context) = context.getSharedPreferences(
-    context.packageName, Context.MODE_PRIVATE
-).edit().clear().apply()
-
-//private fun debug_detectTagData(tag: Tag): String {  // TODO: Move to other class
+//private fun debug_detectTagData(tag: Tag): String {
 //    val sb = StringBuilder()
 //    val id = tag.id
 //    sb.append("ID (hex): ").append(toHex(id)).append('\n')
