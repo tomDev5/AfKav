@@ -2,12 +2,13 @@
     <string name="app_name">AfKav</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">AfKav</string>
-    <string name="second_fragment_label">AfKav - Set card</string>
     <string name="scan_card">Scan card</string>
+    <string name="remove_card">Remove card</string>
     <string name="back">Back</string>
+    <string name="transmit">Transmit</string>
 
     <string name="ready_to_transmit">Ready to transmit</string>
+    <string name="no_card_saved">No card saved</string>
     <string name="scanning_for_card">Scanning for card</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
