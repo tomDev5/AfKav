@@ -14,15 +14,16 @@ import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
-    private var savedTag: Tag? = null
+    private var savedTag: Tag? = null  // The tag saved from the scanner
 
-    private lateinit var cardHandler: CardHandler
+    private lateinit var cardHandler: CardHandler  // Handles saving and loading card
 
     private lateinit var nfcAdapter: NfcAdapter  // The NFC Adapter the phone has.
     private lateinit var pendingIntent: PendingIntent  // Pending Intent to receive an NFC card.
 
     private var isScanning = false  // True = Scanning, False = Transmitting.
 
+    // Buttons in the activity
     private lateinit var addCardButton: FloatingActionButton
     private lateinit var removeCardButton: FloatingActionButton
     private lateinit var transmitButton: Button
@@ -130,21 +131,4 @@ class MainActivity : AppCompatActivity() {
             updateStateTextView()
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        return when (item.itemId) {
-//            R.id.action_settings -> true
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
 }
