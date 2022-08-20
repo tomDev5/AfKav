@@ -11,8 +11,10 @@ private val gson = Gson()
 class CardHandler(private val context: Context) {
 
     fun saveCard(tag: Tag) = context.getSharedPreferences(
-        context.packageName, Context.MODE_PRIVATE
-    ).edit().putString(TAG_ID_PREFERENCES_KEY, gson.toJson(tag)).apply()
+        context.packageName, Context.MODE_PRIVATE)
+        .edit()
+        .putString(TAG_ID_PREFERENCES_KEY, gson.toJson(tag))
+        .apply()
 
     fun loadCard(): Tag? {
         val json: String? = context.getSharedPreferences(
@@ -25,8 +27,10 @@ class CardHandler(private val context: Context) {
     }
 
     fun removeCard() = context.getSharedPreferences(
-        context.packageName, Context.MODE_PRIVATE
-    ).edit().clear().apply()
+        context.packageName, Context.MODE_PRIVATE)
+        .edit()
+        .clear()
+        .apply()
 }
 
 //private fun debug_detectTagData(tag: Tag): String {
