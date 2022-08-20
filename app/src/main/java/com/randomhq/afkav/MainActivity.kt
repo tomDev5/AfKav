@@ -6,8 +6,6 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -42,18 +40,30 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_MUTABLE
         )
 
+        // Create Card Handler
+        cardHandler = CardHandler(applicationContext)
 
+        handleButtons()
+
+        savedTag = cardHandler.loadCard()
+        updateStateTextView()
+    }
+
+    private fun handleButtons() {
         addCardButton = findViewById(R.id.bt_add_card)
         addCardButton.setOnClickListener {
+            Snackbar.make(findViewById(R.id.constraints), "Scanning Card", Snackbar.LENGTH_SHORT)
+                .show()
+
             isScanning = !isScanning
             updateStateTextView()
         }
 
-        // Create Card Handler
-        cardHandler = CardHandler(applicationContext)
-
         removeCardButton = findViewById(R.id.bt_remove_card)
         removeCardButton.setOnClickListener {
+            Snackbar.make(findViewById(R.id.constraints), "Removing Card", Snackbar.LENGTH_SHORT)
+                .show()
+
             savedTag = null
             cardHandler.removeCard()
             updateStateTextView()
@@ -61,12 +71,13 @@ class MainActivity : AppCompatActivity() {
 
         transmitButton = findViewById(R.id.bt_transmit_button)
         transmitButton.setOnClickListener {
-            Snackbar.make(findViewById(R.id.constraints), "Transmitting", Snackbar.LENGTH_SHORT)
-                .show()
+            transmitCard()
         }
+    }
 
-        savedTag = cardHandler.loadCard()
-        updateStateTextView()
+    private fun transmitCard() {
+        Snackbar.make(findViewById(R.id.constraints), "Transmitting Card", Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun updateStateTextView() {
@@ -112,26 +123,28 @@ class MainActivity : AppCompatActivity() {
 
             // Save the NFC card to Shared Prefs
             cardHandler.saveCard(tag)
-            isScanning = false
             savedTag = tag
+
+            // Update state of scanner
+            isScanning = false
             updateStateTextView()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        return when (item.itemId) {
+//            R.id.action_settings -> true
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
 }
