@@ -7,6 +7,12 @@
     <string name="back">Back</string>
     <string name="transmit">Transmit</string>
 
+    <string name="dialog_positive">Yes</string>
+    <string name="dialog_negative">No</string>
+
+    <string name="remove_card_confirmation">Are you sure you want to remove you card?</string>
+    <string name="overwrite_card_confirmation">Are you sure you want to overwrite the saved card ID?</string>
+
     <string name="ready_to_transmit">Ready to transmit</string>
     <string name="no_card_saved">No card saved</string>
     <string name="scanning_for_card">Scanning for card</string>

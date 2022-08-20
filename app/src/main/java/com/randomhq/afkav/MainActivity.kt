@@ -1,5 +1,6 @@
 package com.randomhq.afkav
 
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Intent
 import android.nfc.NfcAdapter
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,23 +52,40 @@ class MainActivity : AppCompatActivity() {
         updateStateTextView()
     }
 
+    private fun loadDialog(
+        message: String,
+        onPositive: android.content.DialogInterface.OnClickListener
+    ) {
+        AlertDialog.Builder(this@MainActivity).setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.dialog_positive), onPositive)
+            .setNegativeButton(getString(R.string.dialog_negative)) { dialog, _ -> dialog.dismiss() }
+            .create().show()
+    }
+
     private fun handleButtons() {
         addCardButton = findViewById(R.id.bt_add_card)
         addCardButton.setOnClickListener {
-            Snackbar.make(findViewById(R.id.constraints), "Scanning Card", Snackbar.LENGTH_SHORT)
-                .show()
-
-            isScanning = !isScanning
+            if (savedTag == null || isScanning) {
+                isScanning = !isScanning
+            } else {
+                loadDialog(
+                    getString(R.string.overwrite_card_confirmation)
+                ) { _, _ ->
+                    isScanning = !isScanning
+                }
+            }
             updateStateTextView()
         }
 
         removeCardButton = findViewById(R.id.bt_remove_card)
         removeCardButton.setOnClickListener {
-            Snackbar.make(findViewById(R.id.constraints), "Removing Card", Snackbar.LENGTH_SHORT)
-                .show()
-
-            savedTag = null
-            cardHandler.removeCard()
+            loadDialog(
+                getString(R.string.remove_card_confirmation)
+            ) { _, _ ->
+                savedTag = null
+                cardHandler.removeCard()
+            }
             updateStateTextView()
         }
 
@@ -92,6 +111,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         transmitButton.isEnabled = !(isScanning || savedTag == null)
+        removeCardButton.isEnabled = savedTag != null
     }
 
     override fun onResume() {
